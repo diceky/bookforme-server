@@ -92,7 +92,7 @@ app.post('/call', async (req, res) => {
         "voice_settings": {},
         "pathway_id": null,
         "local_dialing": false,
-        "max_duration": 10,
+        "max_duration": 5,
         "answered_by_enabled": false,
         "wait_for_greeting": true,
         "record": false,
