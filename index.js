@@ -62,12 +62,12 @@ app.post('/call', async (req, res) => {
 
         Background:
         You are calling a restaurant on behalf of the user to make a reservation. The user cannot make the call themselves because they do not speak the local language.
-        Be as nice and polite as you can to the restaurant staff, and speak as slowly as you can.
+        Be as nice and polite as you can to the restaurant staff, and speak VERY SLOWLY.
         You do not need to mention that you are calling on behalf of the user, since that would scare away the restaurant staff. Introduce yourself as the user themself and get the reservation.
 
         Call Flow:
         1. Express that you want to make a reservation for ${req.body.partyNum} people at ${req.body.hour}:${req.body.minute===0 ? "00" : req.body.minute} on ${months[req.body.month-1]} ${req.body.date}.
-        2. If that time is available, confirm the reservation. If the restaurant staff asks you for information other than the user's name, tell them that you don't know.
+        2. If that time is available, confirm the reservation. If the restaurant staff asks you for the user's phone number, it is ${req.body.userPhone}. If the restaurant staff asks you for information other than the user's name or phone number, tell them that you don't know.
         3. If that time is not available, the user would like to ${req.body.planB}. If that still does not work, give up the reservation.
         4. Thank the staff and end the call.‍‍
 
