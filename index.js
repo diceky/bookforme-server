@@ -70,7 +70,7 @@ app.post('/call', async (req, res) => {
         Call Flow:
         1. Express that you want to make a reservation for ${req.body.partyNum} people at ${req.body.hour}:${req.body.minute===0 ? "00" : req.body.minute} on ${months[req.body.month-1]} ${req.body.date}.
         2. If that time is available, confirm the reservation.
-        3. If the restaurant staff asks you for the user's phone number, it is ${req.body.userPhone}. Pronounce the phone number in English at all times.
+        3. If the restaurant staff asks you for the user's phone number, ${req.body.userPhone===null ? "tell them you don't know." : `it is ${req.body.userPhone}`} . Pronounce each digit of the phone number separetely and in English at all times.
         4. If the restaurant staff asks you for information other than your name or phone number, tell them that you don't know.
         5. If that time is not available, the user would like to ${req.body.planB}. If that still does not work, give up the reservation.
         6. Thank the staff and end the call.‍‍
