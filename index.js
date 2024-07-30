@@ -152,27 +152,6 @@ app.post('/webhook', (req, res) => {
     res.status(200).send('Update sent');
 });
 
-app.post('/sms', async (req, res) => {
-    console.log('SMS requested');
-    const url = process.env.ZAPIER_WEBHOOK;
-    try {
-        //fetch chatbot response from server
-        await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json'},
-          body: JSON.stringify(req.body)
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((response) => {
-            console.log(response);
-          });
-      } catch (error) {
-        console.error(error);
-      }
-});
-
 app.use((req, res, next) => {
     res.status(404).send('Not Found');
 });
