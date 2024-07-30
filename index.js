@@ -108,7 +108,9 @@ app.post('/call', async (req, res) => {
         "request_data": {},
         "tools": [],
         "dynamic_data": [],
-        "analysis_schema": {},
+        "analysis_schema": {
+            "is_reservation_successful": "boolean",
+        },
         "webhook": process.env.WEBHOOOK_ENDPOINT,
         "calendly": {}
       }
