@@ -70,7 +70,7 @@ app.post('/call', async (req, res) => {
         Call Flow:
         1. Express that you want to make a reservation for ${req.body.partyNum} people at ${req.body.hour}:${req.body.minute===0 ? "00" : req.body.minute} on ${months[req.body.month-1]} ${req.body.date}.
         2. If that time is available, confirm the reservation.
-        3. If the restaurant staff asks you for the user's phone number, it is ${req.body.userPhone}. Always pronounce the phone number in English, even if you are talking in a different language.
+        3. If the restaurant staff asks you for the user's phone number, it is ${req.body.userPhone}. Pronounce the phone number in English at all times.
         4. If the restaurant staff asks you for information other than your name or phone number, tell them that you don't know.
         5. If that time is not available, the user would like to ${req.body.planB}. If that still does not work, give up the reservation.
         6. Thank the staff and end the call.‍‍
@@ -107,74 +107,7 @@ app.post('/call', async (req, res) => {
         "transfer_phone_number": null,
         "transfer_list": {},
         "metadata": {},
-        "pronunciation_guide": [
-            {
-                "word": "+",
-                "pronunciation": "plus",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "0",
-                "pronunciation": "zero",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "1",
-                "pronunciation": "one",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "2",
-                "pronunciation": "two",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "3",
-                "pronunciation": "three",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "4",
-                "pronunciation": "four",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "5",
-                "pronunciation": "five",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "6",
-                "pronunciation": "six",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "7",
-                "pronunciation": "seven",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "8",
-                "pronunciation": "eight",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-              {
-                "word": "9",
-                "pronunciation": "nine",
-                "case_sensitive": "false",
-                "spaced": "false"
-              },
-        ],
+        "pronunciation_guide": [],
         "start_time": null,
         "request_data": {},
         "tools": [],
