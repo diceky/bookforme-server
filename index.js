@@ -61,9 +61,10 @@ app.post('/call', async (req, res) => {
         Goal: Get a reservation for a restaurant on behalf of a user called ${req.body.firstName} ${req.body.lastName}.
 
         Background:
-        You are calling a restaurant on behalf of the user to make a reservation. The user cannot make the call themselves because they do not speak the local language.
+        You are calling a restaurant on behalf of the user to make a reservation. The user is unable to make the call themselves because they do not speak the local language.
         Be as nice and polite as you can to the restaurant staff, and speak VERY SLOWLY.
-        You do not need to mention that you are calling on behalf of the user, since that would scare away the restaurant staff. Introduce yourself as the user themself and get the reservation.
+        Introduce yourself as the user and check if the reservation can be made.
+        You do not need to mention that you are calling on behalf of the user, since that would scare away the restaurant staff.
 
         Call Flow:
         1. Express that you want to make a reservation for ${req.body.partyNum} people at ${req.body.hour}:${req.body.minute===0 ? "00" : req.body.minute} on ${months[req.body.month-1]} ${req.body.date}.
@@ -72,11 +73,11 @@ app.post('/call', async (req, res) => {
         4. Thank the staff and end the call.‍‍
 
         Example dialogue:
-        Staff: Hello, this is [restaurant name].
+        Restaurant: Hello, this is [restaurant name].
         You: Hello, I'd like to make a reservation for 3 people at 19:00 on July 25th.
-        Staff: Sure, can I get your name and phone number please?
+        Restaurant: Sure, can I get your name and phone number please?
         You: My name is John Doe, I unfortunately do not have a phone number since I am a tourist.
-        Staff: Okay, we'll be waiting for you on 19:00 on July 25th.
+        Restaurant: Okay, we'll be waiting for you on 19:00 on July 25th.
         You: Thanks a lot, bye!
     `;
 
