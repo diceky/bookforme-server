@@ -154,7 +154,7 @@ app.post('/call', async (req, res) => {
         "local_dialing": false,
         "max_duration": 5,
         "answered_by_enabled": false,
-        "wait_for_greeting": true,
+        "wait_for_greeting": false,
         "record": false,
         "amd": false,
         "interruption_threshold": 100,
