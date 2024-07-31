@@ -126,10 +126,11 @@ app.post('/call', async (req, res) => {
         電話の流れ:
         1. ${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}に、${req.body.partyNum}名で予約をとりたいことを伝えてください。
         2. その枠が予約できるならば、予約を確定してもらってください。
-        3. もし電話番号を聞かれたら、${req.body.userPhone===null ? "分からないと答えてください" : `${phoneToJA(req.body.userPhone)}と伝えてください`}。 
-        4. もし電話番号と名前以外の情報を聞かれたら、分からないと答えてください。
-        5. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}。 それでもダメなら予約を諦めてください。
-        6. スタッフに感謝して電話を切ってください。
+        3. 名前を聞かれたら、${req.body.firstName} ${req.body.lastName}と答えてください。
+        4. 電話番号を聞かれたら、${req.body.userPhone===null ? "分からないと答えてください" : `${phoneToJA(req.body.userPhone)}と答えてください`}。 
+        5. それ以外の情報を聞かれたら、分からないと答えてください。
+        6. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}。 それでもダメなら予約を諦めてください。
+        7. スタッフに感謝して電話を切ってください。
 
         会話の例:
         レストラン: こんにちは、[レストラン名]です。
