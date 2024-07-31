@@ -38,9 +38,7 @@ let clients = {};
 const phoneToJA = (number) => {
   let numberJA = "";
   const chars = number.split('');
-  console.log(chars);
   chars.forEach((char) => {
-      console.log(char);
     if(char==="+") numberJA += "プラス ";
     else if(char==="0") numberJA += "ゼロ ";
     else if(char==="1") numberJA += "イチ ";
@@ -150,7 +148,7 @@ app.post('/call', async (req, res) => {
         "task": req.body.language==="ja" ? taskJA : task,
         "model": "enhanced",
         "language": req.body.language,
-        "voice": req.body.language==="ja" ? "7bbc2b76-8d66-4e69-b2e1-45af9b9a12ed" : "nat",
+        "voice": "nat",
         "voice_settings": {},
         "pathway_id": null,
         "local_dialing": false,
