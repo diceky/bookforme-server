@@ -140,6 +140,8 @@ app.post('/call', async (req, res) => {
         あなた: ありがとうございます、では失礼します。
     `;
 
+    console.log(req.body.language==="ja" ? taskJA : task);
+
     const data = {
         "phone_number": req.body.restaurantPhone,
         "from": null,
