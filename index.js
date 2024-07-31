@@ -23,7 +23,36 @@ const months = [
     "December"
 ];
 
+const planBOptions = [
+  "Give up the reservation",
+  "Check for slots 1 hour before or after the desired slot"
+];
+
+const planBOptionsJA = [
+  "予約を諦める",
+  "希望時間の前後1時間が空いているか確認する"
+];
+
 let clients = {};
+
+const phoneToJA = (number) => {
+  let numberJA = "";
+  const chars = number.split('');
+  chars.forEach((char) => {
+    if(char==="+") numberJA.concat("プラス ");
+    else if(char==="0") numberJA.concat("ゼロ ");
+    else if(char==="1") numberJA.concat("イチ ");
+    else if(char==="2") numberJA.concat("ニ" );
+    else if(char==="3") numberJA.concat("サン ");
+    else if(char==="4") numberJA.concat("ヨン ");
+    else if(char==="5") numberJA.concat("ゴ ");
+    else if(char==="6") numberJA.concat("ロク ");
+    else if(char==="7") numberJA.concat("ナナ ");
+    else if(char==="8") numberJA.concat("ハチ ");
+    else if(char==="9") numberJA.concat("キュウ ");
+  })
+  return numberJA;
+}
 
 // establish Server-Sent Events (SSE)
 app.get('/events/:callId', (req, res) => {
@@ -70,9 +99,9 @@ app.post('/call', async (req, res) => {
         Call Flow:
         1. Express that you want to make a reservation for ${req.body.partyNum} people at ${req.body.hour}:${req.body.minute===0 ? "00" : req.body.minute} on ${months[req.body.month-1]} ${req.body.date}.
         2. If that time is available, confirm the reservation.
-        3. If the restaurant staff asks you for the user's phone number, ${req.body.userPhone===null ? "tell them you don't know." : `it is ${req.body.userPhone}`} . Pronounce each digit of the phone number separetely and in English at all times.
+        3. If the restaurant staff asks you for the user's phone number, ${req.body.userPhone===null ? "tell them you don't know" : `it is ${req.body.userPhone}`}.
         4. If the restaurant staff asks you for information other than your name or phone number, tell them that you don't know.
-        5. If that time is not available, the user would like to ${req.body.planB}. If that still does not work, give up the reservation.
+        5. If that time is not available, the user would like to ${planBOptions[req.body.planB - 1]}. If that still does not work, give up the reservation.
         6. Thank the staff and end the call.‍‍
 
         Example dialogue:
@@ -84,15 +113,40 @@ app.post('/call', async (req, res) => {
         You: Thanks a lot, bye!
     `;
 
-    console.log(task);
+    const taskJA = `
+        目的: ${req.body.firstName} ${req.body.lastName}というユーザーのために、レストランの予約をとること。
+
+        背景:
+        あなたは予約をとるためにレストランに電話をしている客です。
+        現地の言語を話さないユーザーのために、代理で電話をかけています。
+        レストランのスタッフにはできるだけ礼儀正しく、そして優しく話しかけてください。
+        そして、できるだけゆっくり話してください。
+        代理で電話をかけていることは言う必要はありません。ユーザーに成り代わって予約の電話をかけてください。
+
+        電話の流れ:
+        1. ${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}に、${req.body.partyNum}名で予約をとりたいことを伝えてください。
+        2. その枠が予約できるならば、予約を確定してもらってください。
+        3. もし電話番号を聞かれたら、${req.body.userPhone===null ? "分からないと答えてください" : `${phoneToJA(req.body.userPhone)}と伝えてください`}。 
+        4. もし電話番号と名前以外の情報を聞かれたら、分からないと答えてください。
+        5. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}. それでもダメなら予約を諦めてください。
+        6. スタッフに感謝して電話を切ってください。
+
+        会話の例:
+        レストラン: こんにちは、[レストラン名]です。
+        あなた: こんにちは、7月25日の19時に3名で予約をお願いできますか？
+        レストラン: はい、承知しました。ではお名前と電話番号をお願いします。
+        あなた: 名前はジョン・スミス、電話番号は09012345678です。
+        レストラン: ありがとうございます、では7月25日の19時にお待ちしております。
+        あなた: ありがとうございます、では失礼します。
+    `;
 
     const data = {
         "phone_number": req.body.restaurantPhone,
         "from": null,
-        "task": task,
+        "task": req.body.language==="ja" ? taskJA : task,
         "model": "enhanced",
         "language": req.body.language,
-        "voice": "nat",
+        "voice": req.body.language==="ja" ? "7bbc2b76-8d66-4e69-b2e1-45af9b9a12ed" : "nat",
         "voice_settings": {},
         "pathway_id": null,
         "local_dialing": false,
