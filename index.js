@@ -38,18 +38,20 @@ let clients = {};
 const phoneToJA = (number) => {
   let numberJA = "";
   const chars = number.split('');
+  console.log(chars);
   chars.forEach((char) => {
-    if(char==="+") numberJA.concat("プラス ");
-    else if(char==="0") numberJA.concat("ゼロ ");
-    else if(char==="1") numberJA.concat("イチ ");
-    else if(char==="2") numberJA.concat("ニ" );
-    else if(char==="3") numberJA.concat("サン ");
-    else if(char==="4") numberJA.concat("ヨン ");
-    else if(char==="5") numberJA.concat("ゴ ");
-    else if(char==="6") numberJA.concat("ロク ");
-    else if(char==="7") numberJA.concat("ナナ ");
-    else if(char==="8") numberJA.concat("ハチ ");
-    else if(char==="9") numberJA.concat("キュウ ");
+      console.log(char);
+    if(char==="+") numberJA += "プラス ";
+    else if(char==="0") numberJA += "ゼロ ";
+    else if(char==="1") numberJA += "イチ ";
+    else if(char==="2") numberJA += "ニ " ;
+    else if(char==="3") numberJA += "サン ";
+    else if(char==="4") numberJA += "ヨン ";
+    else if(char==="5") numberJA += "ゴ ";
+    else if(char==="6") numberJA += "ロク ";
+    else if(char==="7") numberJA += "ナナ ";
+    else if(char==="8") numberJA += "ハチ ";
+    else if(char==="9") numberJA += "キュウ ";
   })
   return numberJA;
 }
@@ -128,7 +130,7 @@ app.post('/call', async (req, res) => {
         2. その枠が予約できるならば、予約を確定してもらってください。
         3. もし電話番号を聞かれたら、${req.body.userPhone===null ? "分からないと答えてください" : `${phoneToJA(req.body.userPhone)}と伝えてください`}。 
         4. もし電話番号と名前以外の情報を聞かれたら、分からないと答えてください。
-        5. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}. それでもダメなら予約を諦めてください。
+        5. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}。 それでもダメなら予約を諦めてください。
         6. スタッフに感謝して電話を切ってください。
 
         会話の例:
