@@ -56,37 +56,37 @@ const phoneToJA = (number) => {
 
 const dateToJA = (number) => {
   let dateJA = "";
-  if(number==="1") dateJA = "ついたち";
-  else if(number==="2") dateJA = "ふつか" ;
-  else if(number==="3") dateJA = "みっか";
-  else if(number==="4") dateJA = "よっか";
-  else if(number==="5") dateJA = "いつか";
-  else if(number==="6") dateJA = "むいか";
-  else if(number==="7") dateJA = "なのか";
-  else if(number==="8") dateJA = "ようか";
-  else if(number==="9") dateJA = "ここのか";
-  else if(number==="10") dateJA = "とおか";
-  else if(number==="11") dateJA = "じゅういちにち" ;
-  else if(number==="12") dateJA = "じゅうににち" ;
-  else if(number==="13") dateJA = "じゅうさんにち";
-  else if(number==="14") dateJA = "じゅうよっか";
-  else if(number==="15") dateJA = "じゅうごにち";
-  else if(number==="16") dateJA = "じゅうろくにち";
-  else if(number==="17") dateJA = "じゅうななにち";
-  else if(number==="18") dateJA = "じゅうはちにち";
-  else if(number==="19") dateJA = "じゅうくにち";
-  else if(number==="20") dateJA = "はつか";
-  else if(number==="21") dateJA = "にじゅういちにち" ;
-  else if(number==="22") dateJA = "にじゅうににち" ;
-  else if(number==="23") dateJA = "にじゅうさんにち";
-  else if(number==="24") dateJA = "にじゅうよんにち";
-  else if(number==="25") dateJA = "にじゅうごにち";
-  else if(number==="26") dateJA = "にじゅうろくにち";
-  else if(number==="27") dateJA = "にじゅうななにち";
-  else if(number==="28") dateJA = "にじゅうはちにち";
-  else if(number==="29") dateJA = "にじゅうくにち";
-  else if(number==="30") dateJA = "さんじゅうにち";
-  else if(number==="31") dateJA = "さんじゅういちにち";
+  if(number===1) dateJA = "ついたち";
+  else if(number===2) dateJA = "ふつか" ;
+  else if(number===3) dateJA = "みっか";
+  else if(number===4) dateJA = "よっか";
+  else if(number===5) dateJA = "いつか";
+  else if(number===6) dateJA = "むいか";
+  else if(number===7) dateJA = "なのか";
+  else if(number===8) dateJA = "ようか";
+  else if(number===9) dateJA = "ここのか";
+  else if(number===10) dateJA = "とおか";
+  else if(number===11) dateJA = "じゅういちにち" ;
+  else if(number===12) dateJA = "じゅうににち" ;
+  else if(number===13) dateJA = "じゅうさんにち";
+  else if(number===14) dateJA = "じゅうよっか";
+  else if(number===15) dateJA = "じゅうごにち";
+  else if(number===16) dateJA = "じゅうろくにち";
+  else if(number===17) dateJA = "じゅうななにち";
+  else if(number===18) dateJA = "じゅうはちにち";
+  else if(number===19) dateJA = "じゅうくにち";
+  else if(number===20) dateJA = "はつか";
+  else if(number===21) dateJA = "にじゅういちにち" ;
+  else if(number===22) dateJA = "にじゅうににち" ;
+  else if(number===23) dateJA = "にじゅうさんにち";
+  else if(number===24) dateJA = "にじゅうよんにち";
+  else if(number===25) dateJA = "にじゅうごにち";
+  else if(number===26) dateJA = "にじゅうろくにち";
+  else if(number===27) dateJA = "にじゅうななにち";
+  else if(number===28) dateJA = "にじゅうはちにち";
+  else if(number===29) dateJA = "にじゅうくにち";
+  else if(number===30) dateJA = "さんじゅうにち";
+  else if(number===31) dateJA = "さんじゅういちにち";
   return dateJA;
 }
 
@@ -205,7 +205,7 @@ app.post('/call', async (req, res) => {
         "request_data": {},
         "tools": [],
         "dynamic_data": [],
-        "analysis_prompt": "Classify whether the reservation was successful or not. If you are not sure, or the restaurant hangs up the phone before confirming the reservation then mark it as false.",
+        "analysis_prompt": "Classify whether the reservation was successful or not. If you are not sure, or the restaurant staff ends the call before clearly stating that the reservation has been booked, then classify as false.",
         "analysis_schema": {
             "is_reservation_successful": "boolean",
         },
