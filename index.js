@@ -162,7 +162,7 @@ app.post('/call', async (req, res) => {
         電話の流れ:
         1. ${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}に、${req.body.partyNum}名で予約をとりたいことを伝えてください。「${req.body.date}日」は、「${dateToJA(req.body.date)}」と発音してください。
         2. その枠が予約できるならば、予約を確定してもらってください。
-        3. 日付を聞かれたら、${req.body.month}月${dateToJA(req.body.date)}の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}と答えてください。
+        3. 日付を聞かれたら、${req.body.month}月${dateToJA(req.body.date)}の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}と答えてください。「${req.body.date}日」は、「${dateToJA(req.body.date)}」と発音してください。
         4. 名前を聞かれたら、${req.body.firstName} ${req.body.lastName}と答えてください。
         5. 電話番号を聞かれたら、${req.body.userPhone===null ? "日本で繋がる電話番号を持っていないと答えてください" : `${phoneToJA(req.body.userPhone)}と答えてください`}。 
         6. それ以外の情報を聞かれたら、分からないと答えてください。
