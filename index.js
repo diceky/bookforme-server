@@ -148,7 +148,7 @@ app.post('/call', async (req, res) => {
         "task": req.body.language==="ja" ? taskJA : task,
         "model": "enhanced",
         "language": req.body.language,
-        "voice": "nat",
+        "voice": req.body.language==="ja" ? "0bcb8f02-3950-4e87-a988-6c65be206f30" : "nat",
         "voice_settings": {},
         "pathway_id": null,
         "local_dialing": false,
