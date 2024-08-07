@@ -54,6 +54,42 @@ const phoneToJA = (number) => {
   return numberJA;
 }
 
+const dateToJA = (number) => {
+  let dateJA = "";
+  if(number==="1") dateJA = "ついたち";
+  else if(number==="2") dateJA = "ふつか" ;
+  else if(number==="3") dateJA = "みっか";
+  else if(number==="4") dateJA = "よっか";
+  else if(number==="5") dateJA = "いつか";
+  else if(number==="6") dateJA = "むいか";
+  else if(number==="7") dateJA = "なのか";
+  else if(number==="8") dateJA = "ようか";
+  else if(number==="9") dateJA = "ここのか";
+  else if(number==="10") dateJA = "とおか";
+  else if(number==="11") dateJA = "じゅういちにち" ;
+  else if(number==="12") dateJA = "じゅうににち" ;
+  else if(number==="13") dateJA = "じゅうさんにち";
+  else if(number==="14") dateJA = "じゅうよっか";
+  else if(number==="15") dateJA = "じゅうごにち";
+  else if(number==="16") dateJA = "じゅうろくにち";
+  else if(number==="17") dateJA = "じゅうななにち";
+  else if(number==="18") dateJA = "じゅうはちにち";
+  else if(number==="19") dateJA = "じゅうくにち";
+  else if(number==="20") dateJA = "はつか";
+  else if(number==="21") dateJA = "にじゅういちにち" ;
+  else if(number==="22") dateJA = "にじゅうににち" ;
+  else if(number==="23") dateJA = "にじゅうさんにち";
+  else if(number==="24") dateJA = "にじゅうよんにち";
+  else if(number==="25") dateJA = "にじゅうごにち";
+  else if(number==="26") dateJA = "にじゅうろくにち";
+  else if(number==="27") dateJA = "にじゅうななにち";
+  else if(number==="28") dateJA = "にじゅうはちにち";
+  else if(number==="29") dateJA = "にじゅうくにち";
+  else if(number==="30") dateJA = "さんじゅうにち";
+  else if(number==="31") dateJA = "さんじゅういちにち";
+  return dateJA;
+}
+
 // establish Server-Sent Events (SSE)
 app.get('/events/:callId', (req, res) => {
     const callId = req.params.callId;
@@ -124,13 +160,14 @@ app.post('/call', async (req, res) => {
         代理で電話をかけていることは言う必要はありません。ユーザーに成り代わって予約の電話をかけてください。
 
         電話の流れ:
-        1. ${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}に、${req.body.partyNum}名で予約をとりたいことを伝えてください。
+        1. ${req.body.month}月${dateToJA(req.body.date)}の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}に、${req.body.partyNum}名で予約をとりたいことを伝えてください。
         2. その枠が予約できるならば、予約を確定してもらってください。
-        3. 名前を聞かれたら、${req.body.firstName} ${req.body.lastName}と答えてください。
-        4. 電話番号を聞かれたら、${req.body.userPhone===null ? "分からないと答えてください" : `${phoneToJA(req.body.userPhone)}と答えてください`}。 
-        5. それ以外の情報を聞かれたら、分からないと答えてください。
-        6. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}。 それでもダメなら予約を諦めてください。
-        7. スタッフに感謝して電話を切ってください。
+        3. 日付を聞かれたら、${req.body.month}月${dateToJA(req.body.date)}の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}と答えてください。
+        4. 名前を聞かれたら、${req.body.firstName} ${req.body.lastName}と答えてください。
+        5. 電話番号を聞かれたら、${req.body.userPhone===null ? "日本で繋がる電話番号を持っていないと答えてください" : `${phoneToJA(req.body.userPhone)}と答えてください`}。 
+        6. それ以外の情報を聞かれたら、分からないと答えてください。
+        7. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}。 それでもダメなら予約を諦めてください。
+        8. スタッフに感謝して電話を切ってください。
 
         会話の例:
         あなた: こんにちは、7月25日の19時に3名で予約をお願いできまでしょうか？
