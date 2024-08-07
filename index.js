@@ -164,7 +164,7 @@ app.post('/call', async (req, res) => {
         2. その枠が予約できるならば、予約を確定してもらってください。
         3. 日付を聞かれたら、${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}と答えてください。「${req.body.date}日」は、「${dateToJA(req.body.date)}」と発音してください。
         4. 名前を聞かれたら、${req.body.firstName} ${req.body.lastName}と答えてください。
-        5. 電話番号を聞かれたら、${req.body.userPhone===null ? "日本で繋がる電話番号を持っていないと答えてください" : `${phoneToJA(req.body.userPhone)}と答えてください`}。 
+        5. 電話番号を聞かれたら、${req.body.userPhone===null ? "日本で繋がる電話番号をもっていないと答えてください" : `${phoneToJA(req.body.userPhone)}と答えてください`}。 
         6. それ以外の情報を聞かれたら、分からないと答えてください。
         7. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}。 それでもダメなら予約を諦めてください。
         8. スタッフに感謝して電話を切ってください。
