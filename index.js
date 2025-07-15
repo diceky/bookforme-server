@@ -34,6 +34,7 @@ const planBOptionsJA = [
 ];
 
 let clients = {};
+let activePolling = {}; // Track active polling intervals for each call
 
 const phoneToJA = (number) => {
   let numberJA = "";
@@ -111,6 +112,8 @@ app.get('/events/:callId', (req, res) => {
         clients[callId] = clients[callId].filter(client => client !== res);
         if (clients[callId].length === 0) {
             delete clients[callId];
+            // Stop polling if no clients are connected for this call
+            stopEventStreamPolling(callId);
         }
     });
 });
@@ -226,6 +229,11 @@ app.post('/call', async (req, res) => {
           .then((response) => {
             console.log(response);
             toClient = response;
+            
+            // Start polling the event stream if call was initiated successfully
+            if (response && response.call_id) {
+                startEventStreamPolling(response.call_id);
+            }
           });
       } catch (error) {
         console.error(error);
@@ -244,8 +252,26 @@ app.post('/webhook', (req, res) => {
     console.log('Received Webhook:', req.body);
     const callId = req.body["call_id"];
     console.log(`callId to send event: ${callId}`);
-    sendEventToUser(callId, req.body);
+    
+    // Send webhook data to connected clients
+    sendEventToUser(callId, {
+        type: 'webhook',
+        data: req.body
+    });
+    
+    // Check if the call has ended and stop polling
+    if (req.body.status === 'completed' || req.body.status === 'failed' || req.body.status === 'ended') {
+        stopEventStreamPolling(callId);
+    }
+    
     res.status(200).send('Update sent');
+});
+
+// Optional endpoint to manually stop event stream polling
+app.post('/stop-polling/:callId', (req, res) => {
+    const callId = req.params.callId;
+    stopEventStreamPolling(callId);
+    res.status(200).send({ message: `Polling stopped for call ${callId}` });
 });
 
 app.post('/email', async (req, res) => {
@@ -283,3 +309,66 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Webhook receiver listening on port ${PORT}`);
 });
+
+// Function to poll Bland's Event Stream endpoint
+async function pollEventStream(callId) {
+    const api_key = process.env.BLAND_KEY;
+    const eventStreamUrl = `https://api.bland.ai/v1/event_stream/${callId}`;
+    
+    try {
+        const response = await fetch(eventStreamUrl, {
+            method: 'GET',
+            headers: { 
+                'Authorization': api_key,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const eventData = await response.json();
+            console.log(`Event stream data for call ${callId}:`, eventData);
+            
+            // Send the event data to connected clients via SSE
+            sendEventToUser(callId, {
+                type: 'event_stream',
+                data: eventData
+            });
+            
+            return eventData;
+        } else {
+            console.log(`Event stream request failed for call ${callId}:`, response.status);
+            return null;
+        }
+    } catch (error) {
+        console.error(`Error polling event stream for call ${callId}:`, error);
+        return null;
+    }
+}
+
+// Function to start polling for a specific call
+function startEventStreamPolling(callId) {
+    console.log(`Starting event stream polling for call ${callId}`);
+    
+    // Clear any existing interval for this call
+    if (activePolling[callId]) {
+        clearInterval(activePolling[callId]);
+    }
+    
+    // Start polling every 5 seconds
+    activePolling[callId] = setInterval(async () => {
+        const eventData = await pollEventStream(callId);
+        
+        // If the call has ended (you might want to add specific logic here based on the event data)
+        // you can stop polling by calling stopEventStreamPolling(callId)
+    }, 5000);
+}
+
+// Function to stop polling for a specific call
+function stopEventStreamPolling(callId) {
+    console.log(`Stopping event stream polling for call ${callId}`);
+    
+    if (activePolling[callId]) {
+        clearInterval(activePolling[callId]);
+        delete activePolling[callId];
+    }
+}
