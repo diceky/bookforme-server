@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import fetch from "node-fetch";
@@ -220,7 +220,10 @@ app.post('/call', async (req, res) => {
         //fetch chatbot response from server
         await fetch(url, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `${api_key}` },
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': `${api_key}` 
+            },
           body: JSON.stringify(data)
         })
           .then((response) => {
@@ -297,6 +300,43 @@ app.post('/email', async (req, res) => {
     
     res.status(200).send({
         response: 'Email sent'
+    });
+});
+
+app.post('/stop/:callId', async (req, res) => {
+    const callId = req.params.callId;
+    const url = process.env.BLAND_ENDPOINT;
+    const api_key = process.env.BLAND_KEY;
+    let stopResponse = {};
+
+    //first stop the event stream polling for this call
+    stopEventStreamPolling(callId);
+
+    try {
+        await fetch(`${url}/${callId}/stop`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': `${api_key}` 
+            },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            console.log(response);
+            stopResponse = response;
+          });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            error: 'Failed to stop call'
+        });
+      }
+    
+    res.status(200).send({
+        status: stopResponse.status || 'success',
+        message: stopResponse.message || 'Call stop requested'
     });
 });
 
