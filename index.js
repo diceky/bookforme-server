@@ -134,6 +134,7 @@ app.post('/call', async (req, res) => {
         Be as nice and polite as you can to the restaurant staff, and speak VERY SLOWLY.
         Introduce yourself as an AI assistant calling on behalf of the user, and ask if the staff is comfortable with the call.
         If the staff is not comfortable taking a reservation from an AI assisstant, politely end the call.
+        Make sure to explicitly mention that youare an AI, so that the restaurant staff knows they are talking to an AI.
 
         Call Flow:
         1. Express that you want to make a reservation for ${req.body.partyNum} people at ${req.body.hour}:${req.body.minute===0 ? "00" : req.body.minute} on ${months[req.body.month-1]} ${req.body.date}.
@@ -164,13 +165,14 @@ app.post('/call', async (req, res) => {
         レストランのスタッフにはできるだけ礼儀正しく、優しく、そしてゆっくり話してください。
         電話がつながったら、まずは自分がAIアシスタントであり、ユーザーの代理で電話をかけていることを伝え、スタッフがAIアシスタントとの通話に問題がないか確認してください。
         スタッフがAIアシスタントとの通話に問題がある場合は、丁寧に電話を切ってください。
+        AIであることを明確に伝え、レストランスタッフがAIと話しているということを認識できるようにしてください。
 
         電話の流れ:
-        1. ${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}に、${req.body.partyNum}名で予約をとりたいことを伝えてください。「${req.body.date}日」は、「${dateToJA(req.body.date)}にち」と発音してください。
+        1. ${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}に、${req.body.partyNum}名で予約をとりたいことを伝えてください。
         2. その枠が予約できるならば、予約を確定してもらってください。
         3. 名前を聞かれたら、${req.body.firstName} ${req.body.lastName}と答えてください。
         4. 電話番号を聞かれたら、${req.body.userPhone===null ? "日本で繋がる電話番号をもっていないと答えてください" : `${phoneToJA(req.body.userPhone)}と答えてください`}。 
-        5. 日付を聞かれたら、${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}と答えてください。「${req.body.date}日」は、「${dateToJA(req.body.date)}にち」と発音してください。
+        5. 日付を聞かれたら、${req.body.month}月${req.body.date}日の${req.body.hour}時${req.body.minute===0 ? "" : `${req.body.minute}分`}と答えてください。
         6. それ以外の情報を聞かれたら、ユーザーの代理でかけておりその情報は持ち合わせていないことを丁寧に伝えてください。
         7. もしその枠が予約できないならば、${planBOptionsJA[req.body.planB - 1]}。 それでもダメなら予約を諦めてください。
         8. スタッフに感謝して電話を切ってください。
@@ -194,7 +196,7 @@ app.post('/call', async (req, res) => {
         "task": req.body.language==="ja" ? taskJA : task,
         "model": "enhanced",
         "language": req.body.language,
-        "voice": req.body.language==="ja" ? "0bcb8f02-3950-4e87-a988-6c65be206f30" : "nat",
+        "voice": req.body.language==="ja" ? "7bbc2b76-8d66-4e69-b2e1-45af9b9a12ed" : "nat",
         "voice_settings": {},
         "pathway_id": null,
         "local_dialing": false,
